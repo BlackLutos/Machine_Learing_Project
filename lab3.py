@@ -262,3 +262,21 @@ sess.close()
 
 
 # # Run your model on real device
+
+def representative_dataset():
+  for data in Path('MediaTek_IEE5725_Machine_Learning_Lab3/Testing_Data_for_Qualification').glob('*.jpg'):
+    img = cv2.imread(str(data))
+    img = np.expand_dims(img,0)
+    img = img.astype(np.float32)
+    yield [img]
+
+converter = tf.lite.TFLiteConverter.from_frozen_graph(
+    graph_def_file = 'lab3_model.pb',
+    input_arrays = ['Placeholder'],
+    input_shapes = {'Placeholder':[1, 1080, 1920,3]},
+    output_arrays = ['ArgMax'],
+)
+converter.optimizations = [tf.lite.Optimize.DEFAULT]
+converter.representative_dataset = representative_dataset
+tflite_model = converter.convert()
+open('/content/drive/MyDrive/Colab Notebooks/lab3/lab3_model.tflite', 'wb').write(tflite_model)
