@@ -271,7 +271,7 @@ def representative_dataset():
     yield [img]
 
 converter = tf.lite.TFLiteConverter.from_frozen_graph(
-    graph_def_file = 'lab3_model.pb',
+    graph_def_file = 'MediaTek_IEE5725_Machine_Learning_Lab3/lab3_model.pb',
     input_arrays = ['Placeholder'],
     input_shapes = {'Placeholder':[1, 1080, 1920,3]},
     output_arrays = ['ArgMax'],
@@ -279,4 +279,4 @@ converter = tf.lite.TFLiteConverter.from_frozen_graph(
 converter.optimizations = [tf.lite.Optimize.DEFAULT]
 converter.representative_dataset = representative_dataset
 tflite_model = converter.convert()
-open('/content/drive/MyDrive/Colab Notebooks/lab3/lab3_model.tflite', 'wb').write(tflite_model)
+open('MediaTek_IEE5725_Machine_Learning_Lab3/lab3_model.tflite', 'wb').write(tflite_model)
