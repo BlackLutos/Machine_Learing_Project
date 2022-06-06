@@ -134,11 +134,11 @@ dataloader_real = torch.utils.data.DataLoader(dataset_real, batch_size=25, shuff
 
 inputs = tf.placeholder(tf.float32,shape=(None,None, None, 3))
 y_ = tf.placeholder(tf.float32, [None,None, None,6])
-x = tf.image.resize_images(inputs, (128, 128))
+x = tf.image.resize_images(inputs, (128, 128)) # 256,256 # add
 x = x/255.0
-y = tf.image.resize_images(y_, (128,128)) # 256,256
+y = tf.image.resize_images(y_, (128,128)) # 256,256 # add
 ch=13
-depth=5
+depth=3 # 5 # add
 xn = []
 b=tf.Variable(0.0)
 x=tf.layers.conv2d(x,ch,3,1,'same')
@@ -152,9 +152,9 @@ for i in range(depth):
   x = tf.layers.conv2d(x,ch*(2**(i+1)),3,1,'same')
   x = tf.layers.batch_normalization(x,center=False,scale=False)+b
   x = tf.nn.relu(x)
-  x = tf.layers.conv2d(x,ch*(2**(i+1)),3,1,'same')
-  x = tf.layers.batch_normalization(x,center=False,scale=False)+b
-  x = tf.nn.relu(x)
+  x = tf.layers.conv2d(x,ch*(2**(i+1)),3,1,'same') # add
+  x = tf.layers.batch_normalization(x,center=False,scale=False)+b # add
+  x = tf.nn.relu(x) # add
   if i <depth-1:
     x = tf.nn.avg_pool(x,[1,2,2,1],[1,2,2,1],'SAME')
 for i in range(depth):
@@ -218,13 +218,15 @@ for epoch in range(num_epochs):
     sess.run(train,feed_dict={inputs: input, y_: label})
     if i % 10 == 0:
       print("[%d/%d][%s/%d] loss: %.4f b: %.4f "            %(epoch+1, num_epochs, str(i).zfill(4), len(dataloader), sess.run(loss,feed_dict={inputs: input, y_: label}),sess.run(b)) )
-    if i%300==0:
+    if i % 284 == 0:
       print('checkpoint saved')
       for i, data in enumerate(dataloader_real, 0):
         input = data[0].numpy()
         label = data[1].numpy()
         sess.run(train,feed_dict={inputs: input, y_: label})
       saver.save(sess, 'MediaTek_IEE5725_Machine_Learning_Lab3/model/')
+      graph_def = convert_variables_to_constants(sess, sess.graph_def, output_node_names = ['ArgMax']) #add
+      tf.train.write_graph(graph_def, 'MediaTek_IEE5725_Machine_Learning_Lab3/', 'lab3_model.pb', as_text = False) #add
   saver.save(sess, 'MediaTek_IEE5725_Machine_Learning_Lab3/model/')
   print('checkpoint saved')
 
