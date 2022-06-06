@@ -141,15 +141,15 @@ ch=13
 depth=5
 xn = []
 b=tf.Variable(0.0)
-x=tf.layers.conv2d(x,ch,3,2,'same')
+x=tf.layers.conv2d(x,ch,3,1,'same')
 x=tf.layers.batch_normalization(x)
 x = tf.nn.relu(x)
 for i in range(depth):
   xn.append(x)
-  x = tf.layers.conv2d(x,ch*(2**(i+1)),3,2,'same')
+  x = tf.layers.conv2d(x,ch*(2**(i+1)),3,1,'same')
   x = tf.layers.batch_normalization(x,center=False,scale=False)+b
   x = tf.nn.relu(x)
-  x = tf.layers.conv2d(x,ch*(2**(i+1)),3,2,'same')
+  x = tf.layers.conv2d(x,ch*(2**(i+1)),3,1,'same')
   x = tf.layers.batch_normalization(x,center=False,scale=False)+b
   x = tf.nn.relu(x)
   if i <depth-1:
