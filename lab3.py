@@ -186,7 +186,7 @@ init = tf.global_variables_initializer()
 
 sess = tf.Session()
 sess.run(init)
-saver.restore(sess, 'MediaTek_IEE5725_Machine_Learning_Lab3/model/')
+# saver.restore(sess, 'MediaTek_IEE5725_Machine_Learning_Lab3/model/')
 
 
 # # Model Profiling to get Flops and #Parameters
