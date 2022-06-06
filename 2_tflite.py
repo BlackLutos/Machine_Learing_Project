@@ -31,3 +31,4 @@ converter.optimizations = [tf.lite.Optimize.DEFAULT]
 converter.representative_dataset = representative_dataset
 tflite_model = converter.convert()
 open('MediaTek_IEE5725_Machine_Learning_Lab3/lab3_model.tflite', 'wb').write(tflite_model)
+print("Convert Successful !!")
