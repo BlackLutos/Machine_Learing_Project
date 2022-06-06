@@ -152,6 +152,9 @@ for i in range(depth):
   x = tf.layers.conv2d(x,ch*(2**(i+1)),3,1,'same')
   x = tf.layers.batch_normalization(x,center=False,scale=False)+b
   x = tf.nn.relu(x)
+  x = tf.layers.conv2d(x,ch*(2**(i+1)),3,1,'same')
+  x = tf.layers.batch_normalization(x,center=False,scale=False)+b
+  x = tf.nn.relu(x)
   if i <depth-1:
     x = tf.nn.avg_pool(x,[1,2,2,1],[1,2,2,1],'SAME')
 for i in range(depth):
