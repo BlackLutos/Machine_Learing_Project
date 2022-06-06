@@ -210,7 +210,7 @@ stats_graph(tf.get_default_graph())
 # In[ ]:
 
 
-num_epochs = 10
+num_epochs = 1
 for epoch in range(num_epochs):
   for i, data in enumerate(dataloader, 0):
     input = data[0].numpy()
