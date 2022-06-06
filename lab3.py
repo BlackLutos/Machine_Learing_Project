@@ -134,11 +134,11 @@ dataloader_real = torch.utils.data.DataLoader(dataset_real, batch_size=25, shuff
 
 inputs = tf.placeholder(tf.float32,shape=(None,None, None, 3))
 y_ = tf.placeholder(tf.float32, [None,None, None,6])
-x = tf.image.resize_images(inputs, (256, 256))
+x = tf.image.resize_images(inputs, (128, 128))
 x = x/255.0
-y = tf.image.resize_images(y_, (256, 256))
-ch=13
-depth=5
+y = tf.image.resize_images(y_, (128,128)) # 256,256
+ch=15 # 13
+depth=3 # 5
 xn = []
 b=tf.Variable(0.0)
 x=tf.layers.conv2d(x,ch,3,1,'same')
