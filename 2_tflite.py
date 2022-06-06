@@ -14,6 +14,8 @@ import tensorflow as tf
 from pathlib import Path
 from tensorflow.python.framework.graph_util import convert_variables_to_constants
 
+os.environ["CUDA_VISIBLE_DEVICES"] = "1"
+
 def representative_dataset():
   for data in Path('MediaTek_IEE5725_Machine_Learning_Lab3/Testing_Data_for_Qualification').glob('*.jpg'):
     img = cv2.imread(str(data))
