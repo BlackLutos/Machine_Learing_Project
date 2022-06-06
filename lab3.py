@@ -167,6 +167,7 @@ out = tf.layers.conv2d(x,6,3,1,'same')
 outputs = out
 outputs = tf.image.resize_images(outputs, (1080, 1920))
 outputs = tf.argmax(outputs,-1)
+print(outputs)
 
 
 # # Set up the Hyper parameters
