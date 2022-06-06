@@ -141,15 +141,15 @@ ch=13
 depth=5
 xn = []
 b=tf.Variable(0.0)
-x=tf.layers.conv2d(x,ch,5,1,'same')
+x=tf.layers.conv2d(x,ch,3,1,'same')
 x=tf.layers.batch_normalization(x)
 x = tf.nn.relu(x)
 for i in range(depth):
   xn.append(x)
-  x = tf.layers.conv2d(x,ch*(2**(i+1)),5,1,'same')
+  x = tf.layers.conv2d(x,ch*(2**(i+1)),3,1,'same')
   x = tf.layers.batch_normalization(x,center=False,scale=False)+b
   x = tf.nn.relu(x)
-  x = tf.layers.conv2d(x,ch*(2**(i+1)),5,1,'same')
+  x = tf.layers.conv2d(x,ch*(2**(i+1)),3,1,'same')
   x = tf.layers.batch_normalization(x,center=False,scale=False)+b
   x = tf.nn.relu(x)
   if i <depth-1:
@@ -157,10 +157,10 @@ for i in range(depth):
 for i in range(depth):
   if i>0:
     x = tf.keras.layers.UpSampling2D((2,2))(x)
-  x = tf.layers.conv2d(x,ch*(2**(depth-i-1)),5,1,'same')+xn[-i-1]
+  x = tf.layers.conv2d(x,ch*(2**(depth-i-1)),3,1,'same')+xn[-i-1]
   x = tf.layers.batch_normalization(x,center=False,scale=False)+b
   x = tf.nn.relu(x)
-out = tf.layers.conv2d(x,6,5,1,'same')
+out = tf.layers.conv2d(x,6,3,1,'same')
 outputs = out
 outputs = tf.image.resize_images(outputs, (1080, 1920))
 outputs = tf.argmax(outputs,-1)
