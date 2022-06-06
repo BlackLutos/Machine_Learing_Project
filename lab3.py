@@ -62,7 +62,7 @@ from tensorflow.python.framework.graph_util import convert_variables_to_constant
 
 # In[ ]:
 
-
+os.environ["CUDA_VISIBLE_DEVICES"] = ""
 print("Tensorflow Version is %s" % tf.__version__)
 
 
