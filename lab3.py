@@ -62,7 +62,7 @@ from tensorflow.python.framework.graph_util import convert_variables_to_constant
 
 # In[ ]:
 
-os.environ["CUDA_VISIBLE_DEVICES"] = ""
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 print("Tensorflow Version is %s" % tf.__version__)
 
 
@@ -138,7 +138,7 @@ x = tf.image.resize_images(inputs, (128, 128)) # 256,256 # add
 x = x/255.0
 y = tf.image.resize_images(y_, (128,128)) # 256,256 # add
 ch=13
-depth=3 # 5 # add
+depth=5 # 5 # add
 xn = []
 b=tf.Variable(0.0)
 x=tf.layers.conv2d(x,ch,3,1,'same')
@@ -177,7 +177,13 @@ print(outputs)
 
 loss=tf.nn.softmax_cross_entropy_with_logits_v2(logits=out,labels=y)
 loss=tf.reduce_mean(loss)
-optimizer = tf.train.AdamOptimizer(learning_rate = 0.00001)
+# new change lr
+lr_schedule = keras.optimizers.schedules.ExponentialDecay(
+    initial_learning_rate=0.00001,
+    decay_steps=10000,
+    decay_rate=0.9)
+#
+optimizer = tf.train.AdamOptimizer(learning_rate = lr_schedule)
 train = optimizer.minimize(loss+0.0005*b)
 saver=tf.train.Saver()
 init = tf.global_variables_initializer()
@@ -210,7 +216,7 @@ stats_graph(tf.get_default_graph())
 # In[ ]:
 
 
-num_epochs = 1
+num_epochs = 30
 for epoch in range(num_epochs):
   for i, data in enumerate(dataloader, 0):
     input = data[0].numpy()
