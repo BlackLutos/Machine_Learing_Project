@@ -178,12 +178,13 @@ print(outputs)
 loss=tf.nn.softmax_cross_entropy_with_logits_v2(logits=out,labels=y)
 loss=tf.reduce_mean(loss)
 # new change lr
-lr_schedule = tf.keras.optimizers.schedules.ExponentialDecay(
-    initial_learning_rate=0.00001,
-    decay_steps=10000,
-    decay_rate=0.9)
+# lr_schedule = tf.keras.optimizers.schedules.ExponentialDecay(
+#     initial_learning_rate=0.00001,
+#     decay_steps=10000,
+#     decay_rate=0.9)
 #
-optimizer = tf.train.AdamOptimizer(learning_rate = lr_schedule)
+# optimizer = tf.train.AdamOptimizer(learning_rate = lr_schedule)
+optimizer = tf.train.AdamOptimizer(learning_rate = 0.00001)
 train = optimizer.minimize(loss+0.0005*b)
 saver=tf.train.Saver()
 init = tf.global_variables_initializer()
